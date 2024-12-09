@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tree position</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f3f4ed;
+        }
+
+        .header {
+            background-image: url('https://example.com/forest-background.jpg'); /* Replace with your image URL */
+            background-size: cover;
+            background-position: center;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            position: relative;
+        }
+
+        .header::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 100, 0, 0.5);
+            z-index: 1;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            z-index: 2;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            margin-top: 10px;
+            z-index: 2;
+        }
+
+        .image-container {
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            margin: 20px 0;
+            gap: 20px;
+        }
+
+        .image-container img {
+            width: 300px; /* Fixed width */
+            height: 300px; /* Fixed height */
+            object-fit: cover; /* Ensure the aspect ratio is maintained without stretching */
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.5s ease, box-shadow 0.3s ease;
+        }
+
+        .image-container img:hover {
+            transform: scale(1.1) rotate(5deg); /* Zoom in and rotate effect */
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5); /* Enhance the shadow effect */
+        }
+
+        .table-container {
+            margin: 40px auto;
+            width: 90%;
+            text-align: center;
+        }
+
+        .search-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .search-container input {
+            padding: 5px 10px;
+            width: 250px;
+            font-size: 0.9rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .search-container button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            outline: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-container button img {
+            width: 40px;
+            height: 40px;
+            transition: transform 0.3s;
+        }
+
+        .search-container button:hover img {
+            transform: scale(1.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        table thead {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        table thead th {
+            padding: 15px;
+            text-align: left;
+            font-size: 1rem;
+        }
+
+        table tbody tr {
+            transition: background-color 0.3s;
+        }
+
+        table tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        table tbody tr.active-row {
+            background-color: #d4f7d4 !important;
+        }
+
+        table tbody td {
+            padding: 12px;
+            text-align: left;
+            font-size: 0.95rem;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 20px;
+            font-size: 1rem;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div>
+            <h1>Kathu Muncicipality - PlantDB</h1>
+            <p>Discover the beauty and importance of trees in our world</p>
+        </div>
+    </div>
+
+    <!-- Image Display Section -->
+    <div class="image-container">
+        <!-- ลิงก์ไปยังหน้าที่ต้องการเมื่อคลิกที่รูปนี้ -->
+        <a href="Chompoo.html">
+            <img src="Photo\Chompoo Pantip.jpg" alt="Chompoo Pantip">
+        </a>
+        
+        <a href="Photo\Guppy.html">
+            <img src="Photo\reacock.jpg" alt="Guppy">
+        </a>
+        
+        <a href="Photo\Ratchaphruek.html">
+            <img src="Photo\rat.jpg" alt="Ratchaphruek">
+        </a>
+    </div>
+    
+
+    <div class="table-container">
+        <h2>Searchable Data Table</h2>
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="ค้นหาต้นไม้ เช่น 'ชมพูพันธุ์ทิพย์', 'มะขาม'" onkeyup="searchTable()">
+            <button onclick="searchTable()">
+                <img src="https://media.giphy.com/media/3o7abldj0b3rxrZUxW/giphy.gif" alt="Search GIF">
+            </button>
+        </div>
+        <table id="data-table">
+            <thead>
+                <tr>
+                    <th>รหัสต้นไม้</th>
+                    <th>ชื่อไทย</th>
+                    <th>Latitude</th>
+                    <th>Longitude</th>
+                    <th>ความสูง (เมตร)</th>
+                    <th>เส้นรอบวง (เมตร)</th>
+                    <th>ดูดซับคาร์บอน</th>
+                    <th>ปล่อยออกซิเจน</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>01-001-001</td>
+                    <td>ชมพูพันธุ์ทิพย์</td>
+                    <td>7.903324</td>
+                    <td>98.351244</td>
+                    <td>3.40</td>
+                    <td>0.30</td>
+                    <td>5.2 kg</td>
+                    <td>12.8 kg</td>
+                </tr>
+                <tr>
+                    <td>01-002-001</td>
+                    <td>มะขาม</td>
+                    <td>7.895678</td>
+                    <td>98.348910</td>
+                    <td>6.70</td>
+                    <td>0.60</td>
+                    <td>8.5 kg</td>
+                    <td>18.2 kg</td>
+                </tr>
+                <tr>
+                    <td>01-003-001</td>
+                    <td>โพธิ์</td>
+                    <td>7.898321</td>
+                    <td>98.350432</td>
+                    <td>8.20</td>
+                    <td>0.75</td>
+                    <td>10.7 kg</td>
+                    <td>24.5 kg</td>
+                </tr>
+                <tr>
+                    <td>01-004-001</td>
+                    <td>ไทร</td>
+                    <td>7.904678</td>
+                    <td>98.352123</td>
+                    <td>12.50</td>
+                    <td>1.20</td>
+                    <td>15.0 kg</td>
+                    <td>34.8 kg</td>
+                </tr>
+                <tr>
+                    <td>01-005-001</td>
+                    <td>มะม่วง</td>
+                    <td>7.901234</td>
+                    <td>98.349999</td>
+                    <td>5.50</td>
+                    <td>0.50</td>
+                    <td>6.8 kg</td>
+                    <td>15.0 kg</td>
+                </tr>
+            </tbody>
+        </table>
+        <div id="no-results" class="no-results" style="display: none;">No matching records found.</div>
+    </div>
+
+    <script>
+        function searchTable() {
+            const input = document.getElementById('search-input');
+            const filter = input.value.toLowerCase();
+            const table = document.getElementById('data-table');
+            const rows = table.getElementsByTagName('tr');
+            let noResults = true;
+
+            for (let i = 1; i < rows.length; i++) {
+                const cells = rows[i].getElementsByTagName('td');
+                let match = false;
+
+                for (let j = 0; j < cells.length; j++) {
+                    if (cells[j].innerText.toLowerCase().indexOf(filter) > -1) {
+                        match = true;
+                        break;
+                    }
+                }
+
+                if (match) {
+                    rows[i].style.display = '';
+                    rows[i].classList.add('active-row');
+                    noResults = false;
+                } else {
+                    rows[i].style.display = 'none';
+                    rows[i].classList.remove('active-row');
+                }
+            }
+
+            document.getElementById('no-results').style.display = noResults ? 'block' : 'none';
+        }
+    </script>
+</body>
+</html>
+
+<footer class="footer">
+    <div class="footer-content">
+        <p>&copy; 2024 Tree Lovers. All rights reserved.</p>
+        <p>
+            <a href="about.html">About Us</a> |
+            <a href="contact.html">Contact</a> |
+            <a href="privacy.html">Privacy Policy</a>
+        </p>
+    </div>
+</footer>
+
+

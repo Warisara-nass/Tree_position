@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tree Data Visualization</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #eef7f2;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+            text-align: center;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        canvas {
+            margin: 20px 0;
+        }
+
+        h1 {
+            color: #2e7d32;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .chart-title {
+            color: #555;
+            font-size: 1.2rem;
+            margin-top: -10px;
+        }
+
+        #treeAgeChart {
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Tree Data Visualization</h1>
+
+        <canvas id="treeSpeciesChart" width="400" height="200"></canvas>
+        <p class="chart-title">Tree Species Distribution</p>
+
+        <canvas id="treeAgeChart" width="300" height="300"></canvas>
+        <p class="chart-title">Tree Age Distribution</p>
+
+        <canvas id="treeHeightChart" width="400" height="200"></canvas>
+        <p class="chart-title">Tree Height Distribution</p>
+    </div>
+
+    <script>
+        // Data for the charts
+        const treeSpeciesData = {
+            labels: ['Oak', 'Pine', 'Maple', 'Birch', 'Cedar'],
+            datasets: [{
+                label: 'Number of Trees',
+                data: [30, 45, 25, 20, 15],
+                backgroundColor: ['#4CAF50', '#8BC34A', '#CDDC39', '#FFEB3B', '#FFC107'],
+                borderColor: ['#388E3C', '#689F38', '#AFB42B', '#FBC02D', '#FFA000'],
+                borderWidth: 1
+            }]
+        };
+
+        const treeAgeData = {
+            labels: ['0-50 years', '51-100 years', '101-150 years', '151-200 years'],
+            datasets: [{
+                label: 'Age Distribution',
+                data: [40, 35, 15, 10],
+                backgroundColor: ['#8BC34A', '#CDDC39', '#FFC107', '#FF5722'],
+                borderColor: ['#689F38', '#AFB42B', '#FFA000', '#E64A19'],
+                borderWidth: 1
+            }]
+        };
+
+        const treeHeightData = {
+            labels: ['<10m', '10-20m', '20-30m', '>30m'],
+            datasets: [{
+                label: 'Tree Heights',
+                data: [25, 40, 20, 15],
+                backgroundColor: ['#4CAF50', '#FFEB3B', '#FFC107', '#F44336'],
+                borderColor: ['#388E3C', '#FBC02D', '#FFA000', '#D32F2F'],
+                borderWidth: 1
+            }]
+        };
+
+        // Render the charts
+        const ctx1 = document.getElementById('treeSpeciesChart').getContext('2d');
+        new Chart(ctx1, {
+            type: 'bar',
+            data: treeSpeciesData,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Tree Species Distribution'
+                    }
+                }
+            }
+        });
+
+        const ctx2 = document.getElementById('treeAgeChart').getContext('2d');
+        new Chart(ctx2, {
+            type: 'pie',
+            data: treeAgeData,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Tree Age Distribution'
+                    }
+                }
+            }
+        });
+
+        const ctx3 = document.getElementById('treeHeightChart').getContext('2d');
+        new Chart(ctx3, {
+            type: 'line',
+            data: treeHeightData,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Tree Height Distribution'
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
